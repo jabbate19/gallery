@@ -177,6 +177,11 @@ def upload_file(auth_dict: Optional[Dict[str, Any]] = None):
             filepath = os.path.join(dir_path, filename)
             upload.save(filepath)
 
+            if os.path.getsize(filepath) > 5 * 1024 * 1024 * 1024:
+                errors.append(filename)
+                os.remove(filepath)
+                continue
+
             assert filename
             assert dir_path
             assert parent
